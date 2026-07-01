@@ -15,7 +15,9 @@
   --font:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font)}
-.app{display:flex;height:100vh;max-width:900px;margin:0 auto}
+.app{display:flex;height:100vh;max-width:960px;margin:0 auto}
+ 
+/* sidebar */
 #side{width:220px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--s1)}
 .side-head{padding:14px 14px 10px;border-bottom:1px solid var(--border)}
 .me-row{display:flex;align-items:center;gap:9px}
@@ -28,19 +30,20 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .uname{font-size:13px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .online-dot{width:7px;height:7px;border-radius:50%;background:#4ADE80;flex-shrink:0}
 .unread{background:var(--acc);color:#fff;font-size:10px;border-radius:10px;padding:1px 6px;font-weight:600}
-#add-panel{padding:10px 12px;border-top:1px solid var(--border)}
-.add-row{display:flex;gap:6px}
-.add-row input{flex:1;padding:7px 9px;border-radius:9px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:var(--font);font-size:12px;outline:none}
-.add-row input:focus{border-color:var(--acc)}
-.add-row input::placeholder{color:var(--muted)}
-.add-btn{padding:7px 10px;border-radius:9px;border:none;background:var(--acc);color:#fff;font-size:13px;cursor:pointer;transition:opacity .15s}
-.add-btn:hover{opacity:.85}
+.side-footer{padding:10px 12px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+.leave-btn{padding:6px 12px;border-radius:9px;border:1px solid rgba(220,60,60,0.3);background:transparent;color:#E06C6C;font-family:var(--font);font-size:12px;cursor:pointer;transition:background .15s}
+.leave-btn:hover{background:rgba(220,60,60,0.12)}
+ 
+/* main */
 #main{flex:1;display:flex;flex-direction:column;min-width:0}
-#welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:14px}
-.welcome-icon{font-size:42px}
-#chat-area{display:none;flex:1;flex-direction:column;min-height:0}
 .chat-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--s1);flex-shrink:0}
 .chat-head-name{font-size:15px;font-weight:600;flex:1}
+.chat-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--s1);flex-shrink:0}
+.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--acc);border-bottom-color:var(--acc)}
+.chat-view{display:none;flex:1;flex-direction:column;min-height:0}
+.chat-view.show{display:flex}
 .msgs{flex:1;overflow-y:auto;padding:16px 16px 10px;display:flex;flex-direction:column;gap:2px}
 .msgs::-webkit-scrollbar{width:3px}
 .msgs::-webkit-scrollbar-thumb{background:var(--s3);border-radius:3px}
@@ -57,12 +60,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .ts-msg{font-size:10px;color:var(--muted);margin-top:2px;font-family:var(--body)}
 .row.me .ts-msg{text-align:right}
 .ibar{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;background:var(--s1);flex-shrink:0}
-textarea{flex:1;resize:none;border-radius:12px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:var(--body);font-size:14px;padding:10px 13px;min-height:42px;max-height:110px;outline:none}
+textarea{flex:1;resize:none;border-radius:12px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:var(--body);font-size:14px;padding:10px 13px;min-height:42px;max-height:110px;outline:none;ime-mode:active}
 textarea:focus{border-color:var(--acc)}
 textarea::placeholder{color:var(--muted)}
 .sbtn{width:42px;height:42px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s,opacity .15s;font-size:18px}
 .sbtn:hover{opacity:.88}
 .sbtn:active{transform:scale(.93)}
+ 
+/* overlay */
 #overlay{position:fixed;inset:0;background:rgba(13,15,26,.97);display:flex;align-items:center;justify-content:center;z-index:100}
 .setup{width:min(320px,90vw);display:flex;flex-direction:column;gap:14px;text-align:center;background:var(--s1);border:1px solid var(--border);border-radius:24px;padding:36px 32px}
 .setup-icon{font-size:44px}
@@ -77,11 +82,26 @@ textarea::placeholder{color:var(--muted)}
 .setup input::placeholder{color:var(--muted)}
 .join-btn{padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-family:var(--font);font-size:15px;font-weight:600;cursor:pointer;transition:opacity .15s}
 .join-btn:hover{opacity:.88}
+ 
+/* toast */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--s2);border:1px solid var(--border);color:var(--text);padding:9px 18px;border-radius:100px;font-size:13px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:200;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+ 
+/* confirm modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:300;display:none}
+.modal-bg.show{display:flex}
+.modal{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:28px 28px;width:min(300px,90vw);text-align:center;display:flex;flex-direction:column;gap:14px}
+.modal h3{font-size:16px;font-weight:700}
+.modal p{font-size:13px;color:var(--muted);font-family:var(--body);line-height:1.5}
+.modal-btns{display:flex;gap:8px}
+.modal-btns button{flex:1;padding:10px;border-radius:10px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s}
+.modal-btns button:hover{opacity:.85}
+.btn-cancel{background:var(--s2);color:var(--muted)}
+.btn-confirm{background:#E06C6C;color:#fff}
 </style>
 </head>
 <body>
+ 
 <div id="overlay">
   <div class="setup">
     <div class="setup-icon">💬</div>
@@ -92,6 +112,18 @@ textarea::placeholder{color:var(--muted)}
     <button class="join-btn" id="joinBtn">입장하기 →</button>
   </div>
 </div>
+ 
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>탈퇴하기</h3>
+    <p>탈퇴하면 닉네임과 채팅 기록이 모두 삭제됩니다. 계속할까요?</p>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="modalCancel">취소</button>
+      <button class="btn-confirm" id="modalConfirm">탈퇴</button>
+    </div>
+  </div>
+</div>
+ 
 <div class="app">
   <div id="side">
     <div class="side-head">
@@ -100,149 +132,274 @@ textarea::placeholder{color:var(--muted)}
         <div class="me-name" id="myNameEl">—</div>
       </div>
     </div>
-    <div class="sec-label">온라인</div>
+    <div class="sec-label">접속 중</div>
     <div id="onlineList"></div>
-    <div class="sec-label">친구</div>
-    <div id="friendList"></div>
     <div style="flex:1"></div>
-    <div id="add-panel">
-      <div class="add-row">
-        <input type="text" id="addIn" placeholder="닉네임으로 친구 추가..." maxlength="18"/>
-        <button class="add-btn" id="addBtn" title="친구 추가">＋</button>
-      </div>
+    <div class="side-footer">
+      <button class="leave-btn" id="leaveBtn">탈퇴하기</button>
     </div>
   </div>
+ 
   <div id="main">
-    <div id="welcome">
-      <div class="welcome-icon">🌌</div>
-      <div>친구를 선택해 대화하세요</div>
+    <div class="chat-tabs">
+      <div class="tab active" id="tabGlobal" onclick="switchTab('global')">🌐 전체 채팅</div>
+      <div class="tab" id="tabDm" onclick="switchTab('dm')" style="display:none">💬 <span id="dmTabName"></span></div>
     </div>
-    <div id="chat-area">
-      <div class="chat-head">
-        <div class="av" id="chatAv" style="width:30px;height:30px;font-size:13px"></div>
-        <div class="chat-head-name" id="chatName"></div>
-        <div class="online-dot" id="chatDot" style="display:none"></div>
-      </div>
-      <div class="msgs" id="msgs"></div>
+ 
+    <div class="chat-view show" id="viewGlobal">
+      <div class="msgs" id="msgsGlobal"></div>
       <div class="ibar">
-        <textarea id="tf" placeholder="메시지 입력... (Enter 전송)" rows="1"></textarea>
-        <button class="sbtn" id="sbtn" title="전송">➤</button>
+        <textarea id="tfGlobal" placeholder="전체 채팅 입력... (Enter 전송)" rows="1"></textarea>
+        <button class="sbtn" id="sbtnGlobal" title="전송">➤</button>
+      </div>
+    </div>
+ 
+    <div class="chat-view" id="viewDm">
+      <div class="msgs" id="msgsDm"></div>
+      <div class="ibar">
+        <textarea id="tfDm" placeholder="메시지 입력... (Enter 전송)" rows="1"></textarea>
+        <button class="sbtn" id="sbtnDm" title="전송">➤</button>
       </div>
     </div>
   </div>
 </div>
+ 
 <div class="toast" id="toast"></div>
+ 
 <script>
 const COLORS=['#7C6FCD','#E06C6C','#4CAF82','#E0A84C','#4C9FE0','#C04CE0','#5CBEA8'];
-let myName='',myColor=COLORS[0],myFriends=[],activeFriend=null;
-let renderedMsgs={},unread={},lastSender=null,evtSrc=null;
+let myName='',myColor=COLORS[0],activeFriend=null,currentTab='global';
+let renderedGlobal=new Set(),renderedDm={},unread={},evtSrc=null;
+let lastSenderGlobal=null,lastSenderDm=null;
+let composing=false; // IME composition 상태
+ 
 const $=id=>document.getElementById(id);
 const clrRow=$('clrRow'),nameIn=$('nameIn'),joinBtn=$('joinBtn'),overlay=$('overlay');
-const myAv=$('myAv'),myNameEl=$('myNameEl'),onlineList=$('onlineList'),friendList=$('friendList');
-const addIn=$('addIn'),addBtn=$('addBtn'),welcome=$('welcome'),chatArea=$('chat-area');
-const chatAv=$('chatAv'),chatName=$('chatName'),msgs=$('msgs'),tf=$('tf'),sbtn=$('sbtn'),toast=$('toast');
+const myAv=$('myAv'),myNameEl=$('myNameEl'),onlineList=$('onlineList');
+const leaveBtn=$('leaveBtn'),modalBg=$('modalBg'),modalCancel=$('modalCancel'),modalConfirm=$('modalConfirm');
+const tabGlobal=$('tabGlobal'),tabDm=$('tabDm'),dmTabName=$('dmTabName');
+const viewGlobal=$('viewGlobal'),viewDm=$('viewDm');
+const msgsGlobal=$('msgsGlobal'),msgsDm=$('msgsDm');
+const tfGlobal=$('tfGlobal'),tfDm=$('tfDm');
+const sbtnGlobal=$('sbtnGlobal'),sbtnDm=$('sbtnDm'),toast=$('toast');
+ 
+// 색상 스워치
 COLORS.forEach((c,i)=>{
   const s=document.createElement('div');
   s.className='sw'+(i===0?' on':'');s.style.background=c;
   s.onclick=()=>{document.querySelectorAll('.sw').forEach(x=>x.classList.remove('on'));s.classList.add('on');myColor=c;};
   clrRow.appendChild(s);
 });
+ 
+// 자동 로그인
+window.addEventListener('load',()=>{
+  const saved=localStorage.getItem('vela_me');
+  if(saved){
+    try{
+      const {name,color}=JSON.parse(saved);
+      myName=name;myColor=color;
+      const idx=COLORS.indexOf(color);
+      if(idx>=0){document.querySelectorAll('.sw').forEach((s,i)=>{s.classList.toggle('on',i===idx);});}
+      nameIn.value=name;
+      startApp();
+    }catch(e){localStorage.removeItem('vela_me');}
+  }
+});
+ 
 async function join(){
   const n=nameIn.value.trim();if(!n)return nameIn.focus();
-  myName=n;myAv.style.background=myColor;myAv.textContent=n[0].toUpperCase();myNameEl.textContent=n;
-  overlay.style.display='none';
-  await registerUser();await loadFriends();startSSE();setInterval(registerUser,5000);tf.focus();
+  // 같은 기기 이전 닉네임 서버에서 제거
+  const saved=localStorage.getItem('vela_me');
+  if(saved){
+    try{const {name}=JSON.parse(saved);if(name&&name!==n)await fetch('/user/'+encodeURIComponent(name),{method:'DELETE'}).catch(()=>{});}catch(e){}
+  }
+  myName=n;
+  localStorage.setItem('vela_me',JSON.stringify({name:myName,color:myColor}));
+  startApp();
 }
-joinBtn.onclick=join;nameIn.addEventListener('keydown',e=>{if(e.key==='Enter')join();});
+joinBtn.onclick=join;
+nameIn.addEventListener('keydown',e=>{if(e.key==='Enter')join();});
+ 
+function startApp(){
+  myAv.style.background=myColor;myAv.textContent=myName[0].toUpperCase();
+  myNameEl.textContent=myName;
+  overlay.style.display='none';
+  registerUser();
+  loadGlobalHistory();
+  startSSE();
+  setInterval(registerUser,5000);
+  tfGlobal.focus();
+}
+ 
 async function registerUser(){
   try{await fetch('/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:myName,color:myColor})});}catch(e){}
 }
-async function loadFriends(){
-  try{const r=await fetch('/friends/'+myName);if(r.ok)myFriends=await r.json();}catch(e){myFriends=[];}
-  renderFriends();
-}
-async function saveFriend(target,color){
-  try{await fetch('/friends/'+myName,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({target,color})});}catch(e){}
-}
+ 
 function startSSE(){
   if(evtSrc)evtSrc.close();
-  evtSrc=new EventSource('/events/'+myName);
+  evtSrc=new EventSource('/events/'+encodeURIComponent(myName));
   evtSrc.onmessage=e=>{
     const data=JSON.parse(e.data);
     if(data.type==='online')renderOnline(data.users);
+    else if(data.type==='global'){
+      const msg=data.message;
+      if(!renderedGlobal.has(msg.id)){
+        renderedGlobal.add(msg.id);
+        renderMsgGlobal(msg);
+        msgsGlobal.scrollTop=msgsGlobal.scrollHeight;
+      }
+    }
     else if(data.type==='dm'){
-      const msg=data.message;const friend=msg.from===myName?msg.to:msg.from;
-      if(!renderedMsgs[friend])renderedMsgs[friend]=new Set();
-      if(!renderedMsgs[friend].has(msg.id)){
-        renderedMsgs[friend].add(msg.id);
-        if(activeFriend===friend){renderMsg(msg);msgs.scrollTop=msgs.scrollHeight;}
-        else{unread[friend]=(unread[friend]||0)+1;renderFriends();}
+      const msg=data.message;
+      const friend=msg.from===myName?msg.to:msg.from;
+      if(!renderedDm[friend])renderedDm[friend]=new Set();
+      if(!renderedDm[friend].has(msg.id)){
+        renderedDm[friend].add(msg.id);
+        if(currentTab==='dm'&&activeFriend===friend){
+          renderMsgDm(msg);msgsDm.scrollTop=msgsDm.scrollHeight;
+        } else {
+          unread[friend]=(unread[friend]||0)+1;renderOnline(null);
+        }
       }
     }
   };
   evtSrc.onerror=()=>{setTimeout(startSSE,3000);};
 }
-function renderOnline(users){
-  onlineList.innerHTML='';
-  const others=users.filter(u=>u.name!==myName);
-  if(!others.length){const d=document.createElement('div');d.style.cssText='padding:5px 14px;font-size:12px;color:var(--muted)';d.textContent='아무도 없어요';onlineList.appendChild(d);return;}
-  others.forEach(u=>{
-    const row=document.createElement('div');row.className='user-row'+(activeFriend===u.name?' active':'');
-    row.innerHTML=`<div class="av" style="width:24px;height:24px;font-size:11px;background:${u.color||'#888'}">${u.name[0].toUpperCase()}</div><div class="uname">${u.name}</div><div class="online-dot"></div>`;
-    row.onclick=()=>showChat(u.name,u.color||'#888');onlineList.appendChild(row);
-  });
-}
-function renderFriends(){
-  friendList.innerHTML='';
-  if(!myFriends.length){const d=document.createElement('div');d.style.cssText='padding:5px 14px;font-size:12px;color:var(--muted)';d.textContent='친구가 없어요';friendList.appendChild(d);return;}
-  myFriends.forEach(f=>{
-    const row=document.createElement('div');row.className='user-row'+(activeFriend===f.name?' active':'');row.id='fr_'+f.name;
-    const u=unread[f.name]||0;
-    row.innerHTML=`<div class="av" style="width:24px;height:24px;font-size:11px;background:${f.color||'#888'}">${f.name[0].toUpperCase()}</div><div class="uname">${f.name}</div>${u>0?`<span class="unread">${u}</span>`:''}`;
-    row.onclick=()=>showChat(f.name,f.color||'#888');friendList.appendChild(row);
-  });
-}
-async function addFriend(){
-  const target=addIn.value.trim();addIn.value='';
-  if(!target)return showToast('닉네임을 입력하세요');
-  if(target===myName)return showToast('본인은 추가할 수 없어요');
-  if(myFriends.find(f=>f.name===target))return showToast(target+'은 이미 친구예요');
+ 
+async function loadGlobalHistory(){
   try{
-    const r=await fetch('/user/'+target);
-    if(!r.ok)return showToast(target+' 유저를 찾을 수 없어요 (먼저 접속해야 추가 가능)');
-    const u=await r.json();
-    myFriends.push({name:target,color:u.color||'#888'});
-    await saveFriend(target,u.color||'#888');renderFriends();showToast(target+' 친구 추가 완료!');
-  }catch(e){showToast('오류가 발생했어요');}
+    const r=await fetch('/global');
+    if(r.ok){
+      const all=await r.json();
+      all.forEach(m=>{if(!renderedGlobal.has(m.id)){renderedGlobal.add(m.id);renderMsgGlobal(m);}});
+      msgsGlobal.scrollTop=msgsGlobal.scrollHeight;
+    }
+  }catch(e){}
 }
-addBtn.onclick=addFriend;addIn.addEventListener('keydown',e=>{if(e.key==='Enter')addFriend();});
-async function showChat(name,color){
+ 
+let cachedOnline=[];
+function renderOnline(users){
+  if(users!==null)cachedOnline=users;
+  onlineList.innerHTML='';
+  const others=cachedOnline.filter(u=>u.name!==myName);
+  if(!others.length){
+    const d=document.createElement('div');
+    d.style.cssText='padding:5px 14px;font-size:12px;color:var(--muted)';
+    d.textContent='아무도 없어요';onlineList.appendChild(d);return;
+  }
+  others.forEach(u=>{
+    const row=document.createElement('div');
+    row.className='user-row'+(activeFriend===u.name&&currentTab==='dm'?' active':'');
+    const ud=unread[u.name]||0;
+    row.innerHTML=`<div class="av" style="width:26px;height:26px;font-size:12px;background:${u.color||'#888'};cursor:pointer">${u.name[0].toUpperCase()}</div><div class="uname">${u.name}</div><div class="online-dot"></div>${ud>0?`<span class="unread">${ud}</span>`:''}`;
+    row.onclick=()=>openDm(u.name,u.color||'#888');
+    onlineList.appendChild(row);
+  });
+}
+ 
+function switchTab(tab){
+  currentTab=tab;
+  tabGlobal.classList.toggle('active',tab==='global');
+  tabDm.classList.toggle('active',tab==='dm');
+  viewGlobal.classList.toggle('show',tab==='global');
+  viewDm.classList.toggle('show',tab==='dm');
+  if(tab==='global')tfGlobal.focus();
+  else tfDm.focus();
+}
+ 
+async function openDm(name,color){
   activeFriend=name;unread[name]=0;
-  welcome.style.display='none';chatArea.style.display='flex';
-  chatAv.style.background=color;chatAv.textContent=name[0].toUpperCase();chatName.textContent=name;
-  msgs.innerHTML='';renderedMsgs[name]=new Set();lastSender=null;
-  document.querySelectorAll('.user-row').forEach(r=>r.classList.remove('active'));
-  const fr=document.getElementById('fr_'+name);if(fr)fr.classList.add('active');
-  try{const r=await fetch('/dm/'+myName+'/'+name);if(r.ok){const all=await r.json();all.forEach(m=>{renderedMsgs[name].add(m.id);renderMsg(m);});msgs.scrollTop=msgs.scrollHeight;}}catch(e){}
-  tf.focus();
+  dmTabName.textContent=name;
+  tabDm.style.display='';
+  switchTab('dm');
+  renderOnline(null);
+  msgsDm.innerHTML='';renderedDm[name]=new Set();lastSenderDm=null;
+  try{
+    const r=await fetch('/dm/'+encodeURIComponent(myName)+'/'+encodeURIComponent(name));
+    if(r.ok){
+      const all=await r.json();
+      all.forEach(m=>{renderedDm[name].add(m.id);renderMsgDm(m);});
+      msgsDm.scrollTop=msgsDm.scrollHeight;
+    }
+  }catch(e){}
+  tfDm.focus();
 }
-function renderMsg(msg){
-  const isMine=msg.from===myName;const newSender=lastSender!==msg.from;lastSender=msg.from;
-  const row=document.createElement('div');row.className='row'+(isMine?' me':'')+(newSender?' gap':'');
+ 
+function renderMsgGlobal(msg){
+  const isMine=msg.from===myName;
+  const newSender=lastSenderGlobal!==msg.from;lastSenderGlobal=msg.from;
+  msgsGlobal.appendChild(buildBubble(msg,isMine,newSender));
+}
+function renderMsgDm(msg){
+  const isMine=msg.from===myName;
+  const newSender=lastSenderDm!==msg.from;lastSenderDm=msg.from;
+  msgsDm.appendChild(buildBubble(msg,isMine,newSender));
+}
+function buildBubble(msg,isMine,newSender){
+  const row=document.createElement('div');
+  row.className='row'+(isMine?' me':'')+(newSender?' gap':'');
   const bwrap=document.createElement('div');bwrap.className='bwrap';
-  if(newSender&&!isMine){const sn=document.createElement('div');sn.className='sname';sn.style.color=msg.color||'#888';sn.textContent=msg.from;bwrap.appendChild(sn);}
-  const bub=document.createElement('div');bub.className='bub';if(isMine)bub.style.background=myColor;bub.textContent=msg.text;
-  const ts=document.createElement('div');ts.className='ts-msg';ts.textContent=new Date(msg.ts).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
-  bwrap.appendChild(bub);bwrap.appendChild(ts);row.appendChild(bwrap);msgs.appendChild(row);
+  if(newSender&&!isMine){
+    const sn=document.createElement('div');sn.className='sname';
+    sn.style.color=msg.color||'#888';sn.textContent=msg.from;
+    bwrap.appendChild(sn);
+  }
+  const bub=document.createElement('div');bub.className='bub';
+  if(isMine)bub.style.background=myColor;
+  bub.textContent=msg.text;
+  const ts=document.createElement('div');ts.className='ts-msg';
+  ts.textContent=new Date(msg.ts).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+  bwrap.appendChild(bub);bwrap.appendChild(ts);row.appendChild(bwrap);
+  return row;
 }
-async function send(){
-  const text=tf.value.trim();if(!text||!activeFriend)return;tf.value='';tf.style.height='auto';
-  try{await fetch('/dm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({from:myName,to:activeFriend,text,color:myColor})});}catch(e){showToast('전송 실패');}
+ 
+// IME 한글 중복 방지
+function setupTextarea(ta,sendFn){
+  ta.addEventListener('compositionstart',()=>{composing=true;});
+  ta.addEventListener('compositionend',()=>{composing=false;});
+  ta.addEventListener('keydown',e=>{
+    if(e.key==='Enter'&&!e.shiftKey&&!composing){
+      e.preventDefault();sendFn();
+    }
+  });
+  ta.addEventListener('input',()=>{ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,110)+'px';});
 }
-sbtn.onclick=send;tf.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
-tf.addEventListener('input',()=>{tf.style.height='auto';tf.style.height=Math.min(tf.scrollHeight,110)+'px';});
+ 
+async function sendGlobal(){
+  const text=tfGlobal.value.trim();if(!text)return;
+  tfGlobal.value='';tfGlobal.style.height='auto';
+  try{await fetch('/global',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({from:myName,text,color:myColor})});}
+  catch(e){showToast('전송 실패');}
+}
+async function sendDm(){
+  const text=tfDm.value.trim();if(!text||!activeFriend)return;
+  tfDm.value='';tfDm.style.height='auto';
+  try{await fetch('/dm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({from:myName,to:activeFriend,text,color:myColor})});}
+  catch(e){showToast('전송 실패');}
+}
+ 
+setupTextarea(tfGlobal,sendGlobal);
+setupTextarea(tfDm,sendDm);
+sbtnGlobal.onclick=sendGlobal;
+sbtnDm.onclick=sendDm;
+ 
+// 탈퇴
+leaveBtn.onclick=()=>modalBg.classList.add('show');
+modalCancel.onclick=()=>modalBg.classList.remove('show');
+modalConfirm.onclick=async()=>{
+  try{await fetch('/user/'+encodeURIComponent(myName),{method:'DELETE'});}catch(e){}
+  localStorage.removeItem('vela_me');
+  if(evtSrc)evtSrc.close();
+  location.reload();
+};
+ 
 let toastT=null;
-function showToast(msg){toast.textContent=msg;toast.classList.add('show');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>toast.classList.remove('show'),2500);}
+function showToast(msg){
+  toast.textContent=msg;toast.classList.add('show');
+  if(toastT)clearTimeout(toastT);
+  toastT=setTimeout(()=>toast.classList.remove('show'),2500);
+}
 </script>
 </body>
 </html>
+ 
