@@ -16,10 +16,8 @@
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font)}
 .app{display:flex;height:100vh;max-width:960px;margin:0 auto}
- 
-/* sidebar */
-#side{width:220px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--s1)}
-.side-head{padding:14px 14px 10px;border-bottom:1px solid var(--border)}
+#side{width:220px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--s1);overflow-y:auto}
+.side-head{padding:14px 14px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
 .me-row{display:flex;align-items:center;gap:9px}
 .av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0}
 .me-name{font-size:14px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -29,17 +27,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .user-row.active{background:rgba(124,111,205,0.18)}
 .uname{font-size:13px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .online-dot{width:7px;height:7px;border-radius:50%;background:#4ADE80;flex-shrink:0}
+.offline-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0}
 .unread{background:var(--acc);color:#fff;font-size:10px;border-radius:10px;padding:1px 6px;font-weight:600}
-.side-footer{padding:10px 12px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+.side-footer{padding:10px 12px;border-top:1px solid var(--border);flex-shrink:0;display:flex;justify-content:flex-end;margin-top:auto}
 .leave-btn{padding:6px 12px;border-radius:9px;border:1px solid rgba(220,60,60,0.3);background:transparent;color:#E06C6C;font-family:var(--font);font-size:12px;cursor:pointer;transition:background .15s}
 .leave-btn:hover{background:rgba(220,60,60,0.12)}
- 
-/* main */
 #main{flex:1;display:flex;flex-direction:column;min-width:0}
-.chat-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--s1);flex-shrink:0}
-.chat-head-name{font-size:15px;font-weight:600;flex:1}
-.chat-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--s1);flex-shrink:0}
-.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.chat-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--s1);flex-shrink:0}
+.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap}
 .tab:hover{color:var(--text)}
 .tab.active{color:var(--acc);border-bottom-color:var(--acc)}
 .chat-view{display:none;flex:1;flex-direction:column;min-height:0}
@@ -60,14 +55,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .ts-msg{font-size:10px;color:var(--muted);margin-top:2px;font-family:var(--body)}
 .row.me .ts-msg{text-align:right}
 .ibar{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;background:var(--s1);flex-shrink:0}
-textarea{flex:1;resize:none;border-radius:12px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:var(--body);font-size:14px;padding:10px 13px;min-height:42px;max-height:110px;outline:none;ime-mode:active}
+textarea{flex:1;resize:none;border-radius:12px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:var(--body);font-size:14px;padding:10px 13px;min-height:42px;max-height:110px;outline:none}
 textarea:focus{border-color:var(--acc)}
 textarea::placeholder{color:var(--muted)}
 .sbtn{width:42px;height:42px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s,opacity .15s;font-size:18px}
 .sbtn:hover{opacity:.88}
 .sbtn:active{transform:scale(.93)}
- 
-/* overlay */
 #overlay{position:fixed;inset:0;background:rgba(13,15,26,.97);display:flex;align-items:center;justify-content:center;z-index:100}
 .setup{width:min(320px,90vw);display:flex;flex-direction:column;gap:14px;text-align:center;background:var(--s1);border:1px solid var(--border);border-radius:24px;padding:36px 32px}
 .setup-icon{font-size:44px}
@@ -82,15 +75,11 @@ textarea::placeholder{color:var(--muted)}
 .setup input::placeholder{color:var(--muted)}
 .join-btn{padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-family:var(--font);font-size:15px;font-weight:600;cursor:pointer;transition:opacity .15s}
 .join-btn:hover{opacity:.88}
- 
-/* toast */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--s2);border:1px solid var(--border);color:var(--text);padding:9px 18px;border-radius:100px;font-size:13px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:200;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
- 
-/* confirm modal */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:300;display:none}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:300}
 .modal-bg.show{display:flex}
-.modal{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:28px 28px;width:min(300px,90vw);text-align:center;display:flex;flex-direction:column;gap:14px}
+.modal{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:28px;width:min(300px,90vw);text-align:center;display:flex;flex-direction:column;gap:14px}
 .modal h3{font-size:16px;font-weight:700}
 .modal p{font-size:13px;color:var(--muted);font-family:var(--body);line-height:1.5}
 .modal-btns{display:flex;gap:8px}
@@ -98,6 +87,7 @@ textarea::placeholder{color:var(--muted)}
 .modal-btns button:hover{opacity:.85}
 .btn-cancel{background:var(--s2);color:var(--muted)}
 .btn-confirm{background:#E06C6C;color:#fff}
+.offline-row .uname{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -116,7 +106,7 @@ textarea::placeholder{color:var(--muted)}
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h3>탈퇴하기</h3>
-    <p>탈퇴하면 닉네임과 채팅 기록이 모두 삭제됩니다. 계속할까요?</p>
+    <p>탈퇴하면 닉네임이 삭제됩니다. 계속할까요?</p>
     <div class="modal-btns">
       <button class="btn-cancel" id="modalCancel">취소</button>
       <button class="btn-confirm" id="modalConfirm">탈퇴</button>
@@ -134,7 +124,8 @@ textarea::placeholder{color:var(--muted)}
     </div>
     <div class="sec-label">접속 중</div>
     <div id="onlineList"></div>
-    <div style="flex:1"></div>
+    <div class="sec-label">오프라인</div>
+    <div id="offlineList"></div>
     <div class="side-footer">
       <button class="leave-btn" id="leaveBtn">탈퇴하기</button>
     </div>
@@ -145,20 +136,18 @@ textarea::placeholder{color:var(--muted)}
       <div class="tab active" id="tabGlobal" onclick="switchTab('global')">🌐 전체 채팅</div>
       <div class="tab" id="tabDm" onclick="switchTab('dm')" style="display:none">💬 <span id="dmTabName"></span></div>
     </div>
- 
     <div class="chat-view show" id="viewGlobal">
       <div class="msgs" id="msgsGlobal"></div>
       <div class="ibar">
         <textarea id="tfGlobal" placeholder="전체 채팅 입력... (Enter 전송)" rows="1"></textarea>
-        <button class="sbtn" id="sbtnGlobal" title="전송">➤</button>
+        <button class="sbtn" id="sbtnGlobal">➤</button>
       </div>
     </div>
- 
     <div class="chat-view" id="viewDm">
       <div class="msgs" id="msgsDm"></div>
       <div class="ibar">
         <textarea id="tfDm" placeholder="메시지 입력... (Enter 전송)" rows="1"></textarea>
-        <button class="sbtn" id="sbtnDm" title="전송">➤</button>
+        <button class="sbtn" id="sbtnDm">➤</button>
       </div>
     </div>
   </div>
@@ -170,12 +159,13 @@ textarea::placeholder{color:var(--muted)}
 const COLORS=['#7C6FCD','#E06C6C','#4CAF82','#E0A84C','#4C9FE0','#C04CE0','#5CBEA8'];
 let myName='',myColor=COLORS[0],activeFriend=null,currentTab='global';
 let renderedGlobal=new Set(),renderedDm={},unread={},evtSrc=null;
-let lastSenderGlobal=null,lastSenderDm=null;
-let composing=false; // IME composition 상태
+let lastSenderGlobal=null,lastSenderDm=null,composing=false;
+let cachedOnline=[],cachedOffline=[];
  
 const $=id=>document.getElementById(id);
 const clrRow=$('clrRow'),nameIn=$('nameIn'),joinBtn=$('joinBtn'),overlay=$('overlay');
-const myAv=$('myAv'),myNameEl=$('myNameEl'),onlineList=$('onlineList');
+const myAv=$('myAv'),myNameEl=$('myNameEl');
+const onlineList=$('onlineList'),offlineList=$('offlineList');
 const leaveBtn=$('leaveBtn'),modalBg=$('modalBg'),modalCancel=$('modalCancel'),modalConfirm=$('modalConfirm');
 const tabGlobal=$('tabGlobal'),tabDm=$('tabDm'),dmTabName=$('dmTabName');
 const viewGlobal=$('viewGlobal'),viewDm=$('viewDm');
@@ -183,7 +173,6 @@ const msgsGlobal=$('msgsGlobal'),msgsDm=$('msgsDm');
 const tfGlobal=$('tfGlobal'),tfDm=$('tfDm');
 const sbtnGlobal=$('sbtnGlobal'),sbtnDm=$('sbtnDm'),toast=$('toast');
  
-// 색상 스워치
 COLORS.forEach((c,i)=>{
   const s=document.createElement('div');
   s.className='sw'+(i===0?' on':'');s.style.background=c;
@@ -191,15 +180,14 @@ COLORS.forEach((c,i)=>{
   clrRow.appendChild(s);
 });
  
-// 자동 로그인
 window.addEventListener('load',()=>{
   const saved=localStorage.getItem('vela_me');
   if(saved){
     try{
-      const {name,color}=JSON.parse(saved);
+      const{name,color}=JSON.parse(saved);
       myName=name;myColor=color;
       const idx=COLORS.indexOf(color);
-      if(idx>=0){document.querySelectorAll('.sw').forEach((s,i)=>{s.classList.toggle('on',i===idx);});}
+      if(idx>=0)document.querySelectorAll('.sw').forEach((s,i)=>s.classList.toggle('on',i===idx));
       nameIn.value=name;
       startApp();
     }catch(e){localStorage.removeItem('vela_me');}
@@ -208,10 +196,9 @@ window.addEventListener('load',()=>{
  
 async function join(){
   const n=nameIn.value.trim();if(!n)return nameIn.focus();
-  // 같은 기기 이전 닉네임 서버에서 제거
   const saved=localStorage.getItem('vela_me');
   if(saved){
-    try{const {name}=JSON.parse(saved);if(name&&name!==n)await fetch('/user/'+encodeURIComponent(name),{method:'DELETE'}).catch(()=>{});}catch(e){}
+    try{const{name}=JSON.parse(saved);if(name&&name!==n)await fetch('/user/'+encodeURIComponent(name),{method:'DELETE'}).catch(()=>{});}catch(e){}
   }
   myName=n;
   localStorage.setItem('vela_me',JSON.stringify({name:myName,color:myColor}));
@@ -240,16 +227,18 @@ function startSSE(){
   evtSrc=new EventSource('/events/'+encodeURIComponent(myName));
   evtSrc.onmessage=e=>{
     const data=JSON.parse(e.data);
-    if(data.type==='online')renderOnline(data.users);
-    else if(data.type==='global'){
+    if(data.type==='online'){
+      cachedOnline=data.users||[];
+      cachedOffline=data.offline||[];
+      renderSidebar();
+    } else if(data.type==='global'){
       const msg=data.message;
       if(!renderedGlobal.has(msg.id)){
         renderedGlobal.add(msg.id);
         renderMsgGlobal(msg);
         msgsGlobal.scrollTop=msgsGlobal.scrollHeight;
       }
-    }
-    else if(data.type==='dm'){
+    } else if(data.type==='dm'){
       const msg=data.message;
       const friend=msg.from===myName?msg.to:msg.from;
       if(!renderedDm[friend])renderedDm[friend]=new Set();
@@ -258,7 +247,7 @@ function startSSE(){
         if(currentTab==='dm'&&activeFriend===friend){
           renderMsgDm(msg);msgsDm.scrollTop=msgsDm.scrollHeight;
         } else {
-          unread[friend]=(unread[friend]||0)+1;renderOnline(null);
+          unread[friend]=(unread[friend]||0)+1;renderSidebar();
         }
       }
     }
@@ -277,24 +266,42 @@ async function loadGlobalHistory(){
   }catch(e){}
 }
  
-let cachedOnline=[];
-function renderOnline(users){
-  if(users!==null)cachedOnline=users;
+function renderSidebar(){
+  // 온라인
   onlineList.innerHTML='';
   const others=cachedOnline.filter(u=>u.name!==myName);
   if(!others.length){
     const d=document.createElement('div');
     d.style.cssText='padding:5px 14px;font-size:12px;color:var(--muted)';
-    d.textContent='아무도 없어요';onlineList.appendChild(d);return;
+    d.textContent='아무도 없어요';onlineList.appendChild(d);
+  } else {
+    others.forEach(u=>{
+      const row=document.createElement('div');
+      row.className='user-row'+(activeFriend===u.name&&currentTab==='dm'?' active':'');
+      const ud=unread[u.name]||0;
+      row.innerHTML=`<div class="av" style="width:26px;height:26px;font-size:12px;background:${u.color||'#888'}">${u.name[0].toUpperCase()}</div><div class="uname">${u.name}</div><div class="online-dot"></div>${ud>0?`<span class="unread">${ud}</span>`:''}`;
+      row.onclick=()=>openDm(u.name,u.color||'#888');
+      onlineList.appendChild(row);
+    });
   }
-  others.forEach(u=>{
-    const row=document.createElement('div');
-    row.className='user-row'+(activeFriend===u.name&&currentTab==='dm'?' active':'');
-    const ud=unread[u.name]||0;
-    row.innerHTML=`<div class="av" style="width:26px;height:26px;font-size:12px;background:${u.color||'#888'};cursor:pointer">${u.name[0].toUpperCase()}</div><div class="uname">${u.name}</div><div class="online-dot"></div>${ud>0?`<span class="unread">${ud}</span>`:''}`;
-    row.onclick=()=>openDm(u.name,u.color||'#888');
-    onlineList.appendChild(row);
-  });
+ 
+  // 오프라인
+  offlineList.innerHTML='';
+  const off=cachedOffline.filter(u=>u.name!==myName);
+  if(!off.length){
+    const d=document.createElement('div');
+    d.style.cssText='padding:5px 14px;font-size:12px;color:var(--muted)';
+    d.textContent='없어요';offlineList.appendChild(d);
+  } else {
+    off.forEach(u=>{
+      const row=document.createElement('div');
+      row.className='user-row offline-row'+(activeFriend===u.name&&currentTab==='dm'?' active':'');
+      const ud=unread[u.name]||0;
+      row.innerHTML=`<div class="av" style="width:26px;height:26px;font-size:12px;background:${u.color||'#888'};opacity:.5">${u.name[0].toUpperCase()}</div><div class="uname">${u.name}</div><div class="offline-dot"></div>${ud>0?`<span class="unread">${ud}</span>`:''}`;
+      row.onclick=()=>openDm(u.name,u.color||'#888');
+      offlineList.appendChild(row);
+    });
+  }
 }
  
 function switchTab(tab){
@@ -312,7 +319,7 @@ async function openDm(name,color){
   dmTabName.textContent=name;
   tabDm.style.display='';
   switchTab('dm');
-  renderOnline(null);
+  renderSidebar();
   msgsDm.innerHTML='';renderedDm[name]=new Set();lastSenderDm=null;
   try{
     const r=await fetch('/dm/'+encodeURIComponent(myName)+'/'+encodeURIComponent(name));
@@ -353,14 +360,11 @@ function buildBubble(msg,isMine,newSender){
   return row;
 }
  
-// IME 한글 중복 방지
 function setupTextarea(ta,sendFn){
   ta.addEventListener('compositionstart',()=>{composing=true;});
   ta.addEventListener('compositionend',()=>{composing=false;});
   ta.addEventListener('keydown',e=>{
-    if(e.key==='Enter'&&!e.shiftKey&&!composing){
-      e.preventDefault();sendFn();
-    }
+    if(e.key==='Enter'&&!e.shiftKey&&!composing){e.preventDefault();sendFn();}
   });
   ta.addEventListener('input',()=>{ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,110)+'px';});
 }
@@ -383,7 +387,6 @@ setupTextarea(tfDm,sendDm);
 sbtnGlobal.onclick=sendGlobal;
 sbtnDm.onclick=sendDm;
  
-// 탈퇴
 leaveBtn.onclick=()=>modalBg.classList.add('show');
 modalCancel.onclick=()=>modalBg.classList.remove('show');
 modalConfirm.onclick=async()=>{
