@@ -5,7 +5,8 @@ const crypto = require('crypto');
 
 const PORT = process.env.PORT || 3000;
 
-const users = new Map();
+const users = new Map();      // 현재 온라인
+const allUsers = new Map();   // 전체 가입자 (오프라인 포함)
 const dms = new Map();
 const globalMsgs = [];
 const clients = new Map();
@@ -22,7 +23,8 @@ function broadcastAll(data){
 }
 function broadcastOnline(){
   const online=[...users.values()].filter(u=>Date.now()-u.ts<10000);
-  clients.forEach(res=>res.write(`data: ${JSON.stringify({type:'online',users:online})}\n\n`));
+  const offline=[...allUsers.values()].filter(u=>!online.find(o=>o.name===u.name));
+  clients.forEach(res=>res.write(`data: ${JSON.stringify({type:'online',users:online,offline})}\n\n`));
 }
 
 function body(req){
@@ -47,37 +49,35 @@ const server=http.createServer(async(req,res)=>{
   const url=new URL(req.url,`http://localhost`);
   const p=url.pathname;
 
-  // index.html
   if(req.method==='GET'&&p==='/'){
     const file=fs.readFileSync(path.join(__dirname,'index.html'));
     res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});
     res.end(file);return;
   }
 
-  // register user
   if(req.method==='POST'&&p==='/user'){
     const{name,color}=await body(req);
     if(!name)return json(res,{error:'no name'},400);
-    users.set(name,{name,color,ts:Date.now()});
+    const u={name,color,ts:Date.now()};
+    users.set(name,u);
+    allUsers.set(name,{name,color});
     broadcastOnline();
     return json(res,{ok:true});
   }
 
-  // delete user (탈퇴)
   if(req.method==='DELETE'&&p.startsWith('/user/')){
     const name=decodeURIComponent(p.slice(6));
     users.delete(name);
+    allUsers.delete(name);
     clients.delete(name);
     broadcastOnline();
     return json(res,{ok:true});
   }
 
-  // global chat history
   if(req.method==='GET'&&p==='/global'){
     return json(res,globalMsgs);
   }
 
-  // global chat send
   if(req.method==='POST'&&p==='/global'){
     const{from,text,color}=await body(req);
     if(!from||!text)return json(res,{error:'missing'},400);
@@ -88,7 +88,6 @@ const server=http.createServer(async(req,res)=>{
     return json(res,{ok:true});
   }
 
-  // DM history
   if(req.method==='GET'&&p.startsWith('/dm/')){
     const parts=p.slice(4).split('/');
     if(parts.length<2)return json(res,[]);
@@ -96,7 +95,6 @@ const server=http.createServer(async(req,res)=>{
     return json(res,dms.get(key)||[]);
   }
 
-  // DM send
   if(req.method==='POST'&&p==='/dm'){
     const{from,to,text,color}=await body(req);
     if(!from||!to||!text)return json(res,{error:'missing'},400);
@@ -111,7 +109,6 @@ const server=http.createServer(async(req,res)=>{
     return json(res,{ok:true});
   }
 
-  // SSE
   if(req.method==='GET'&&p.startsWith('/events/')){
     const name=decodeURIComponent(p.slice(8));
     res.writeHead(200,{
@@ -122,7 +119,8 @@ const server=http.createServer(async(req,res)=>{
     });
     clients.set(name,res);
     const online=[...users.values()].filter(u=>Date.now()-u.ts<10000);
-    res.write(`data: ${JSON.stringify({type:'online',users:online})}\n\n`);
+    const offline=[...allUsers.values()].filter(u=>!online.find(o=>o.name===u.name));
+    res.write(`data: ${JSON.stringify({type:'online',users:online,offline})}\n\n`);
     req.on('close',()=>{clients.delete(name);});
     return;
   }
